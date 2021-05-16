@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Edu app',
       theme: ThemeData(),
-      home: DetailScreen(),
+      home: HomeScreen(),
     );
   }
 }

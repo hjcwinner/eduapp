@@ -42,7 +42,7 @@ class DetailScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 16),
                   Text(
-                    "Design Thinking",
+                    "플러터 코딩하기",
                     style: kHeadingextStyle,
                   ),
                   SizedBox(height: 16),
@@ -77,18 +77,153 @@ class DetailScreen extends StatelessWidget {
             SizedBox(height: 60),
             Expanded(
                 child: Container(
-                  padding: EdgeInsets.all(30),
-                  width: double.infinity,
+              padding: EdgeInsets.only(left: 30, top: 10, right: 30),
+              width: double.infinity,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(50), color: Colors.white),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                    Text("코스내용", style: kHeadingextStyle,)
-                  ],),
+              child: Stack(
+                children: [
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(top: 10, left: 10, right: 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "코스내용",
+                          style: kTitleTextStyle,
+                        ),
+                        SizedBox(height: 30),
+                        CourseContent(
+                          number: "01",
+                          duration: 5.35,
+                          title: "시작단계",
+                          isDone: true,
+                        ),
+                        CourseContent(
+                          number: "02",
+                          duration: 5.35,
+                          title: "1단계 코스 시작",
+                          isDone: true,
+                        ),
+                        CourseContent(
+                          number: "03",
+                          duration: 5.35,
+                          title: "2단계 코스 시작",
+                          isDone: false,
+                        ),
+                        CourseContent(
+                          number: "04",
+                          duration: 5.35,
+                          title: "3단계 코스 시작",
+                          isDone: false,
+                        ),
+                      ],
+                    ),
+                  ),
+                  Positioned(
+                      right: 0,
+                      left: 0,
+                      bottom: 0,
+                      child: Container(
+                        padding: EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(40),
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                  offset: Offset(0, 4),
+                                  blurRadius: 50,
+                                  color: kTextColor.withOpacity(.1))
+                            ]),
+                        height: 100,
+                        width: double.infinity,
+                        child: Row(children: [
+                          Container(
+                            padding: EdgeInsets.all(14),
+                            height: 56,
+                            width: 80,
+                            decoration: BoxDecoration(
+                              color: Color(0xffffedee),
+                              borderRadius: BorderRadius.circular(40),
+                            ),
+                            child: SvgPicture.asset(
+                                "assets/icons/shopping-bag.svg"),
+                          ),
+                          SizedBox(width: 20),
+                          Expanded(
+                            child: Container(
+                              alignment: Alignment.center,
+                              height: 56,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(40),
+                                  color: kBlueColor),
+                              child: Text("구매하기", style: kSubtitleTextSyule.copyWith(color: Colors.white, fontWeight: FontWeight.bold),),
+                            ),
+                          )
+                        ]),
+                      ))
+                ],
+              ),
             ))
           ],
         ),
+      ),
+    );
+  }
+}
+
+class CourseContent extends StatelessWidget {
+  final String number;
+  final double duration;
+  final String title;
+  final bool isDone;
+
+  const CourseContent({
+    Key key,
+    this.number,
+    this.duration,
+    this.title,
+    this.isDone = false,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 30),
+      child: Row(
+        children: [
+          Text(
+            number,
+            style: kHeadingextStyle.copyWith(
+                color: kTextColor.withOpacity(.15), fontSize: 32),
+          ),
+          SizedBox(width: 20),
+          RichText(
+              text: TextSpan(children: [
+            TextSpan(
+                text: "$duration mins\n",
+                style: TextStyle(
+                    color: kTextColor.withOpacity(0.5), fontSize: 18)),
+            TextSpan(
+                text: title,
+                style: kSubtitleTextSyule.copyWith(
+                    fontWeight: FontWeight.w600, height: 1.5))
+          ])),
+          Spacer(),
+          Container(
+            margin: EdgeInsets.only(left: 20),
+            height: 40,
+            width: 40,
+            decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: kGreenColor.withOpacity(isDone ? 1 : .5)),
+            child: Icon(
+              Icons.play_arrow,
+              color: Colors.white,
+            ),
+          )
+        ],
       ),
     );
   }
