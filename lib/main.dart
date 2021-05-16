@@ -1,4 +1,6 @@
 import 'package:eduapp/contants.dart';
+import 'package:eduapp/detail.dart';
+import 'package:eduapp/model/category.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -15,7 +17,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Edu app',
       theme: ThemeData(),
-      home: HomeScreen(),
+      home: DetailScreen(),
     );
   }
 }
@@ -31,7 +33,7 @@ class HomeScreen extends StatelessWidget {
           children: [
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
               SvgPicture.asset("assets/icons/menu.svg"),
-              Image.asset("assets/images/user.png")
+              Image.asset("assets/images/user.PNG")
             ]),
             SizedBox(height: 30),
             Text(
@@ -47,25 +49,58 @@ class HomeScreen extends StatelessWidget {
               decoration: BoxDecoration(
                   color: Color(0xFFF5E5F7),
                   borderRadius: BorderRadius.circular(40)),
-                  child: Row(children: [
-                    SvgPicture.asset("assets/icons/search.svg"),
-                    SizedBox(width: 16),
-                    Text("원하는 수업을 찾으세요", style: TextStyle(fontSize: 18, color: Color(0xFFA0A5BD)),)
-                  ],),
+              child: Row(
+                children: [
+                  SvgPicture.asset("assets/icons/search.svg"),
+                  SizedBox(width: 16),
+                  Text(
+                    "원하는 수업을 찾으세요",
+                    style: TextStyle(fontSize: 18, color: Color(0xFFA0A5BD)),
+                  )
+                ],
+              ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-              Text('카테고리', style: kTitleTextStyle),
-              Text('모두보기', style: kSubtitleTextSyule.copyWith(color: kBlueColor))
-            ],),
+                Text('카테고리', style: kTitleTextStyle),
+                Text('모두보기',
+                    style: kSubtitleTextSyule.copyWith(color: kBlueColor))
+              ],
+            ),
             SizedBox(height: 30),
-            Expanded(child: StaggeredGridView.countBuilder(crossAxisCount: 2, itemBuilder: (context, index){
-              return Container(
-                height: 100,
-                color: kBlueColor,
-              );
-            }, staggeredTileBuilder: (index) => StaggeredTile.fit(1)))
+            Expanded(
+                child: StaggeredGridView.countBuilder(
+                    padding: EdgeInsets.all(0),
+                    itemCount: categories.length,
+                    crossAxisSpacing: 20,
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 20,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        height: index.isEven ? 200 : 240,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(16),
+                            image: DecorationImage(
+                              image: AssetImage(categories[index].image),
+                              fit: BoxFit.fill,
+                            )),
+                        child: Column(
+                          children: [
+                            Text(
+                              categories[index].name,
+                              style: kTitleTextStyle,
+                            ),
+                            Text(
+                              '${categories[index].numOfCourses} 코스',
+                              style:
+                                  TextStyle(color: kTextColor.withOpacity(.6)),
+                            )
+                          ],
+                        ),
+                      );
+                    },
+                    staggeredTileBuilder: (index) => StaggeredTile.fit(1)))
           ],
         ),
       ),
